@@ -1,17 +1,22 @@
-Pipeline {
-	agent any
-	stages {
-		stage ("build"){
-			steps {
-				echo "building the app..."
-							}
-		}
-		
-		stage ("test"){
-			
-			steps {
-				echo "testing the app..."
-			}
-		}
+pipeline {
+    agent {
+        docker {
+            image 'node:14-alpine3.15'
+            args '-p 8080:8080'
+        }
+    }
+     environment {
+            STAGING = 'true'
+			PRODUCTION = 'true'
+
+        }
+    stages {
+        stage('Build') {
+            steps {
+                sh 'npm install'
+            }
+        }
 	}
+
+    }
 }
